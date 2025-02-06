@@ -1,12 +1,16 @@
 package iesthiar.service;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import iesthiar.modelo.Coche;
-import iesthiar.repository.ClienteRepository;
+import iesthiar.repository.CocheRepository;
 
-
+@Service
 public class CocheServiceImpl implements CocheService  {
-    private ClienteRepository cocheService;
+    @Autowired
+    private CocheRepository cocheService;
 
     @Override
     public Coche save(Coche empleado) {
