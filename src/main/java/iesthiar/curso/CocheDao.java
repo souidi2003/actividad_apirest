@@ -1,9 +1,11 @@
-package iesthiar.modelo;
+package iesthiar.curso;
 
 
 
 
 import java.util.List;
+
+import iesthiar.modelo.Coche;
 
 
 
