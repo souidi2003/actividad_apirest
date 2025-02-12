@@ -16,6 +16,7 @@ public interface CocheDao {
     public Coche buscarPorMatricula(String matricula);
     public List<Coche> buscarrPorPropietario(int id);
     public List<Coche> buscarTodos();
+    public Coche buscarPorId(int id);
    
     
 } 

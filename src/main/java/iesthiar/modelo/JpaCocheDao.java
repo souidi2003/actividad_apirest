@@ -30,7 +30,6 @@ public class JpaCocheDao implements CocheDao{
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
         entityTransaction.begin();
-    
         entityManager.persist(c);
         entityTransaction.commit();
         entityManager.close();
@@ -42,7 +41,7 @@ public class JpaCocheDao implements CocheDao{
         EntityTransaction entityTransaction = entityManager.getTransaction();
         entityTransaction.begin();
         entityManager.merge(c);
-        entityTransaction.commit();
+        entityManager.getTransaction().commit();
         entityManager.close();
     }
 
@@ -51,7 +50,13 @@ public class JpaCocheDao implements CocheDao{
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
         entityTransaction.begin();
-        entityManager.remove(c);
+    
+        Coche cochePersistente = entityManager.find(Coche.class, c.getId());
+        if (cochePersistente != null) {
+            entityManager.remove(cochePersistente);  
+        } else {
+            System.out.println("El coche no se encuentra en la base de datos");
+        }
         entityTransaction.commit();
         entityManager.close();
     }
@@ -59,7 +64,10 @@ public class JpaCocheDao implements CocheDao{
     @Override
     public Coche buscarPorMatricula(String matricula) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        Coche coche = entityManager.find(Coche.class, matricula);
+        Coche coche = entityManager.createQuery("SELECT c FROM Coche c WHERE c.matricula = :matricula", Coche.class)
+        .setParameter("matricula", matricula)
+        .getSingleResult();
+
         entityManager.close();
         return coche;
     }
@@ -83,6 +91,13 @@ public class JpaCocheDao implements CocheDao{
             return jpaCocheDao;
         }
         return jpaCocheDao;
+    }
+
+    @Override
+    public Coche buscarPorId(int id) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Coche coche = entityManager.find(Coche.class, id);
+        return coche;
     }
     
 }
