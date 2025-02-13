@@ -1,5 +1,0 @@
-FROM openjdk:21
-WORKDIR /
-ADD actividad_apirest.jar actividad_apirest.jar
-EXPOSE 4444
-CMD ["java", "-jar", "actividad_apirest.jar"]

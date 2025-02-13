@@ -10,10 +10,17 @@ import com.hellokaton.blade.template.JetbrickTemplateEngine;
  *
  */
 public class App 
+
 {
+    
     public static void main( String[] args )
     {
-       Blade.create().listen(8081).start();
+        /*
+         * Crea una instancia de Blade y la configura para escuchar en el puerto 8081 y   
+         * * arrancar el servidor.
+         */
+        int port = Integer.parseInt(System.getenv().getOrDefault("SERVER_PORT", "9000"));
+       Blade.create().start();
     }
 
     

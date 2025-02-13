@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql-ddbb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: concesionario
+      MYSQL_USER: user
+      MYSQL_PASSWORD: admin
+      MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
+      start_period: 20s
+      timeout: 5s
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: abdel2003/api:latest
+    container_name: api-rest
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy  # ✅ Espera a que MySQL esté listo
+    ports:
+      - "9069:9069"
+    environment:
+      DATABASE_URL: "jdbc:mysql://db:3306/concesionario?serverTimezone=UTC"
+      DATABASE_USER: user
+      DATABASE_PASSWORD: admin
+
+volumes:
+  mysql-data:

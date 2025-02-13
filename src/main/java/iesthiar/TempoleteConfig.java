@@ -10,6 +10,7 @@ public class TempoleteConfig implements BladeLoader {
 
     @Override
     public void load(Blade blade) {
+        // Configura el motor de plantillas Jetbrick.
         blade.templateEngine(new JetbrickTemplateEngine());
     }
     
